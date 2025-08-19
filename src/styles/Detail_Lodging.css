@@ -1,0 +1,279 @@
+/* 스코프 */
+.detail-lodging .container {
+  position: relative;
+  width: min(92%, 1280px);
+  margin: 0 auto;
+  padding-top: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 헤더: 높이를 낮춰서 전체를 위로 */
+.detail-lodging .header {
+  position: relative;
+  height: 400px;
+}
+
+/* 왼쪽 타이틀 블록을 살짝 위로 */
+.detail-lodging .branding {
+  position: absolute;
+  top: -60px;
+  left: -100px;
+}
+
+/* 타이틀을 조금 키우기 + 줄간격 타이트 */
+.detail-lodging .branding-text {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(33px, 4.6vw, 52px);
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+}
+
+/* 집 아이콘도 살짝 키우고 위로 올림 */
+.detail-lodging .house-icon {
+  position: absolute;
+  top: 10px;
+  left: 330px;
+  width: 340px;
+  height: auto;
+}
+
+/* 우측 상단 컨트롤: 버튼만 */
+.detail-lodging .controls {
+  position: absolute;
+  top: -50px;
+  right: -100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.detail-lodging .search-top-btn {
+  background: #000;
+  color: #fff;
+  padding: 6px 20px;
+  border-radius: 38px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+  border: 0;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+/* 결과 카드 영역 */
+.detail-lodging .results {
+  position: absolute;
+  top: 560px;
+  left: 12%;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.detail-lodging .result-card {
+  text-align: center;
+  width: 189px;
+}
+.detail-lodging .result-thumbnail {
+  width: 189px;
+  aspect-ratio: 1 / 1;
+  border-radius: 41px;
+  background-color: rgba(72, 72, 72, 0.35);
+}
+.detail-lodging .result-text {
+  margin-top: 16px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  color: #000;
+}
+
+/* 탭 */
+.detail-lodging .detail-tabs {
+  display: flex;
+  padding-left: 58px;
+  margin: 10px 0 14px;
+}
+.detail-lodging .pill {
+  border: 1.5px solid #000;
+  border-radius: 999px;
+  padding: 7px 35px;
+  background: #fff;
+  cursor: pointer;
+}
+.detail-lodging .pill--black {
+  background: #000;
+  color: #fff;
+  border: none;
+}
+
+/* 사진 + 상세 그리드 */
+.detail-lodging .detail-grid {
+  display: grid;
+  grid-template-columns: 420px 1fr;  /* 좌: 사진 | 우: 텍스트 */
+  gap: 36px;
+  align-items: start;
+  padding: 0 56px;
+}
+
+/* 좌측 사진 카드 */
+.detail-lodging .photo-card {
+  position: relative;
+  width: 95%;
+  aspect-ratio: 1 / 1;
+  max-width: 420px;
+}
+.detail-lodging .pc-body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+  background: #777;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;           /* 라운드에 맞춰 이미지 잘림 */
+}
+.detail-lodging .pc-shadow {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  pointer-events: none;
+}
+.detail-lodging .pc-shadow.s1 {
+  background: #9b9b9b;
+  transform: translate(12px, 10px);
+  z-index: 1;
+}
+.detail-lodging .pc-shadow.s2 {
+  background: #bdbdbd;
+  transform: translate(22px, 18px);
+  z-index: 0;
+}
+
+/* ✅ 실제 이미지 표시 */
+.detail-lodging .pc-img {
+  display: block;             /* 기존 none → block */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* 카드에 꽉 차게 */
+  border-radius: inherit;
+}
+
+/* 우측 상세 */
+.detail-lodging .detail-info {
+  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.detail-lodging .di-title {
+  margin: 2px 0 6px;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 34px;
+  letter-spacing: .02em;
+}
+.detail-lodging .di-hr {
+  height: 2px;
+  background: #000;
+  width: 500px;
+  margin: 6px auto 8px;
+}
+.detail-lodging .di-meta {
+  text-align: center;
+  opacity: .85;
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+
+/* 본문 */
+.detail-lodging .di-body {
+  width: min(450px, 200%);
+}
+.detail-lodging .di-desc {
+  white-space: pre-line;
+  line-height: 1.7;
+  margin: 0 0 16px;
+  color: #111;
+  font-weight: 600;
+  text-align: left;
+  font-size: 20px;
+}
+
+/* 버튼 */
+.detail-lodging .di-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: right;
+  margin-top: 140px;
+  margin-right: -50px;
+}
+.detail-lodging .chip {
+  border: 1.5px solid #000;
+  border-radius: 999px;
+  padding: 6px 25px;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 600;
+}
+.detail-lodging .chip:hover {
+  background: #000;
+  color: #fff;
+}
+
+/* 푸터 */
+.detail-lodging .footer-text {
+  position: absolute;
+  top: 1500px;
+  left: 543px;
+  text-align: center;
+  font-size: 24px;
+  letter-spacing: 3.36px;
+  font-family: "Inter", sans-serif;
+}
+.detail-lodging .footer-sub {
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+/* --- 선택: 반응형 보완 (좁은 화면에서 스택) --- */
+@media (max-width: 920px) {
+  .detail-lodging .detail-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 0 20px;
+  }
+  .detail-lodging .photo-card {
+    width: 100%;
+    max-width: none;
+  }
+  .detail-lodging .di-hr {
+    width: 100%;
+  }
+}
+
+/* ======================
+   사진 스택 → spread 효과
+   최대 5장까지 대응
+   ====================== */
+.detail-lodging .pc-body {
+  position: relative;
+}
+.detail-lodging .pc-body .pc-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  transition: transform 0.3s ease;
+}
+
+

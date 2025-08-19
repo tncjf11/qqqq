@@ -1,0 +1,155 @@
+/* =========================
+   SearchPage 전용 스코프
+   ========================= */
+.search-page .container {
+  position: relative;
+  width: min(96%, 1440px);   /* 화면 넓을수록 여유 있게 */
+  margin: 0 auto;
+  padding-top: 60px;
+}
+
+/* ── 헤더 영역(상단 타이틀/집아이콘/검색바) ── */
+.search-page .header {
+  position: relative;
+  height: 520px;             /* 상단 영역 높이만 확보, 이후 섹션은 흐름으로 배치 */
+}
+
+.search-page .branding {
+  position: absolute;
+  left: 56px;
+  top: 0;
+}
+
+.search-page .branding-text {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(34px, 3.2vw, 50px);
+  letter-spacing: 0.14em;
+  line-height: 1.25;
+}
+
+.search-page .house-icon {
+  position: absolute;
+  top: 8px;
+  left: 300px;
+  width: 340px;
+  height: auto;
+}
+
+/* 우측 상단 컨트롤 */
+.search-page .controls {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.search-page .search-top-btn {
+  background: #000;
+  color: #fff;
+  padding: 10px 26px;
+  border-radius: 38px;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+  border: 0;
+  white-space: nowrap;
+  min-width: 140px;
+}
+
+/* 혹시 남은 상단 돋보기 강제 숨김(안전장치) */
+.search-page .sp-search-top-icon { display: none !important; }
+
+/* ── 가운데 검색바 ── */
+.search-page .search-bar {
+  position: absolute;
+  top: 300px;                      /* 헤더 내부에서만 절대배치 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(80%, 960px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  border-bottom: 2px solid #000;
+  padding-bottom: 16px;
+}
+.search-page .sp-search-icon { width: 48px; height: 48px; }
+.search-page .search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: clamp(26px, 2.6vw, 42px);
+  letter-spacing: 0.14em;
+  text-align: center;
+}
+.search-page .search-input::placeholder { opacity: .7; transition: opacity .15s ease; }
+.search-page .search-input:focus::placeholder { opacity: 0; }
+
+/* =========================
+   본문(라벨 → 결과 그리드)
+   ========================= */
+
+/* 라벨 */
+.search-page .section-label {
+  margin: 40px 8% 40px;
+  text-align: center; 
+}
+.search-page .label-chip {
+  background: #000;
+  color: #fff;
+  border-radius: 38px;
+  padding: 10px 20px;
+  font-size: 20px;
+  font-family: "Inter", sans-serif;
+  display: inline-block;
+}
+
+/* 결과 그리드 */
+.search-page .results {
+  margin: 0 8%;                    
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 320px)); /* 최대폭 제한 */
+  gap: 40px;
+  justify-content: center; /* 아이템이 몇 개 없을 때 가운데 정렬 */
+}
+.search-page .result-card {
+  width: 100%;
+  max-width: 280px;   /* 카드 최대폭 제한 */
+  margin: 0 auto;     /* 중앙 정렬 */
+  text-align: center;
+}
+.search-page .result-thumbnail {
+  width: 100%;
+  aspect-ratio: 4 / 3;              /* 1:1 → 4:3 비율로 조정 */
+  border-radius: 20px;              /* 라운드 값 적당히 축소 */
+  background-color: rgba(72, 72, 72, 0.35);
+  background-size: cover;           /* 이미지 꽉 채우기 */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.search-page .result-text {
+  margin-top: 18px;
+  font-size: 18px;
+  font-family: "Inter", sans-serif;
+  color: #000;
+}
+
+/* =========================
+   푸터
+   ========================= */
+.search-page .footer {
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-size: 28px;
+  letter-spacing: 3.6px;
+  margin: 72px auto 28px;          
+}
+.search-page .footer-sub { font-size: 14px; }
+
+/* 접근성/모션 배려 */
+@media (prefers-reduced-motion: reduce) {
+  .search-page .search-bar { transition: none; }
+}

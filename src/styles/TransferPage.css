@@ -1,0 +1,119 @@
+/* 메인/숙박과 충돌 방지: 페이지 스코프 .transfer-page 사용 */
+.transfer-page { position: relative; }
+
+/* ===== 카테고리 (메인 위치/크기와 동일) ===== */
+.transfer-page .category-wrapper {
+  position: absolute;
+  top: 684px;
+  left: 87px;
+  display: flex;
+  gap: 120px;
+  z-index: 2;
+}
+
+/* mainpage.css의 .category-card { position:absolute } 무력화 */
+.transfer-page .category-card {
+  position: static !important;       /* ✨ 절대배치 해제 */
+  width: 287px;
+  height: 302px;
+  border-radius: 88px;
+  text-align: center;
+  background-color: #E5E5E5;         /* 기본색(숙박톤) */
+  cursor: pointer;
+  transition: transform .2s ease;
+  border: 1.5px solid #000;
+}
+.transfer-page .category-card:hover { transform: scale(1.05); }
+/* ✨ 양도 활성: 핑크 톤 */
+.transfer-page .category-card.active { background-color: #EFD7E4; }
+
+.transfer-page .category-image {
+  margin-top: 82px;
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+}
+.transfer-page .category-label {
+  margin-top: 10px;
+  font-size: 24px;
+  letter-spacing: 3.36px;
+  font-family: "Inter", sans-serif;
+}
+
+/* ===== 필터 / More ===== */
+.transfer-page .filter-buttons {
+  position: absolute;
+  top: 1060px;
+  left: 87px;
+  display: flex;
+  gap: 10px;
+  z-index: 2;
+}
+.transfer-page .filter-buttons button {
+  border: 1.5px solid #000;
+  border-radius: 38px;
+  padding: 6px 20px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  background: #fff;
+  cursor: pointer;
+}
+
+.transfer-page .more-btn {
+  position: absolute;
+  top: 1060px;
+  right: 80px;
+  background-color: #000;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+  z-index: 2;
+}
+.transfer-page .more-btn.disabled {
+  opacity: .4;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* ===== 리스트 ===== */
+.transfer-page .transfer-list {
+  position: absolute;
+  top: 1120px;
+  left: 50%;                 /* 화면의 가운데 기준 */
+  transform: translateX(-50%);/* 본인 너비의 절반만큼 왼쪽으로 */
+  display: grid;
+  grid-template-columns: repeat(3, 287px);
+  gap: 40px;
+  z-index: 1;
+}
+.transfer-page .transfer-card { text-align: center; }
+.transfer-page .transfer-image {
+  width: 287px;
+  height: 302px;
+  object-fit: cover;
+  border-radius: 49px;
+  background: rgba(72,72,72,.35);
+}
+.transfer-page .transfer-text {
+  margin-top: 8px;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+}
+
+/* ===== 푸터(겹침 방지) ===== */
+/* top 값은 JSX에서 동적으로 보정 */
+.transfer-page .footer-text {
+  position: absolute;
+  left: 543px;
+  text-align: center;
+  font-size: 24px;
+  letter-spacing: 3.36px;
+  font-family: "Inter", sans-serif;
+}
+.transfer-page .footer-sub {
+  font-size: 12px;
+  line-height: 1.3;
+}

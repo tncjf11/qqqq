@@ -1,0 +1,275 @@
+/* =========================
+   카테고리 (메인 CSS와 충돌 해결)
+   ========================= */
+.category-wrapper {
+  position: absolute;
+  top: 684px;
+  left: 87px;
+  display: flex;
+  gap: 120px;
+  z-index: 2;
+}
+
+.category-wrapper .category-card {
+  position: static !important;
+  width: 287px;
+  height: 302px;
+  border-radius: 88px;
+  text-align: center;
+  background-color: #E5E5E5;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: 1.5px solid #000;
+}
+.upload-page .category-wrapper .category-card.active {
+  background-color: #F3E1CB;
+}
+.category-wrapper .category-card:hover {
+  transform: scale(1.05);
+}
+.category-wrapper .category-image {
+  margin-top: 82px;
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+}
+.category-wrapper .category-label {
+  margin-top: 10px;
+  font-size: 24px;
+  letter-spacing: 3.36px;
+  font-family: "Inter", sans-serif;
+}
+
+/* =========================
+   태그 그룹
+   ========================= */
+.tag-group {
+  position: absolute;
+  top: 575px;
+  left: 845px;
+  display: flex;
+  gap: 8px;
+}
+.tag {
+  padding: 6px 16px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  border-radius: 38px;
+  white-space: nowrap;
+}
+.tag-outline { border: 1.5px solid #000; }
+.tag-outline-white { border: 1.5px solid #000; background-color: #fff; }
+.tag-filled { background-color: #000; color: #fff; }
+
+/* =========================
+   업로드 페이지 공통
+   ========================= */
+.upload-page .container { padding-top: 990px; }
+.upload-page .upload-inner {
+  max-width: 1088px;
+  margin: 120px auto 0;
+  padding-bottom: 40px;
+}
+.upload-page .upload-grid {
+  display: grid;
+  grid-template-columns: 520px 520px;
+  gap: 48px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* =========================
+   탭
+   ========================= */
+.upload-page .upload-tabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px 8px;
+}
+.upload-page .tab {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  border: 2px solid #000;
+  border-radius: 9999px;
+  font: 700 14px/1 "Inter", sans-serif;
+  white-space: nowrap;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.upload-page .tab:hover { opacity: 0.9; }
+.upload-page .tab.tab--active {
+  background-color: #000; color: #fff; border-color: #000;
+}
+.upload-page .tab.tab--ghost {
+  background: #fff; color: #000; border-color: #000;
+}
+.upload-page .tab:focus-visible {
+  outline: 2px dashed #666; outline-offset: 3px;
+}
+
+/* =========================
+   좌측 이미지 카드
+   ========================= */
+.upload-page .upload-card {
+  position: relative;
+  width: 520px;
+  height: 520px;
+  flex-shrink: 0;
+  border-radius: 36px;
+  cursor: pointer;
+  outline: none;
+}
+.upload-page .upload-card__body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 36px;
+  background: #747474;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+.upload-page .upload-card__shadow {
+  position: absolute; inset: 0; border-radius: 36px;
+}
+.upload-page .shadow--1 { background: #9b9b9b; transform: translate(14px, 12px); z-index: 1; }
+.upload-page .shadow--2 { background: #bdbdbd; transform: translate(24px, 20px); z-index: 0; }
+.upload-page .plus { font-size: 72px; color: #fff; line-height: 1; }
+.upload-page .upload-preview {
+  width: 100%; height: 100%;
+  object-fit: cover; border-radius: 36px;
+}
+
+/* === 추가: 캐러셀 화살표 / 카운터 === */
+.upload-page .carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid #000;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.upload-page .carousel-btn--prev { left: 12px; }
+.upload-page .carousel-btn--next { right: 12px; }
+.upload-page .carousel-btn:hover { background: #000; color: #fff; }
+
+.upload-page .upload-counter {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  background: rgba(0,0,0,0.65);
+  color: #fff;
+  font-size: 14px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  z-index: 6;
+}
+
+/* =========================
+   우측 폼
+   ========================= */
+.upload-page .upload-form { padding-top: 12px; }
+.upload-page .title-line { margin-bottom: 20px; }
+.upload-page .title-input {
+  width: 100%; font-size: 36px; font-weight: 700;
+  text-align: center; color: #b0b0b0;
+  border: none; outline: none;
+}
+.upload-page .title-input::placeholder { color: #b0b0b0; }
+.upload-page .underline {
+  height: 2px; width: 90%; margin: 8px auto 0; background: #000;
+}
+
+/* 칩(입력칩) */
+.upload-page .chips { all: unset; }
+.upload-form .chips {
+  display: grid; gap: 16px; align-items: center;
+}
+.upload-form .chips.is-transfer { grid-template-columns: repeat(3, 1fr); }
+.upload-form .chips.is-lodging { grid-template-columns: repeat(4, 1fr); }
+.upload-form .chip-input {
+  width: 100%; height: 44px; padding: 0 16px;
+  border: 2px solid #000; border-radius: 24px;
+  font-size: 16px; line-height: 44px;
+  box-sizing: border-box; min-width: 0;
+}
+
+/* date/number 보정 */
+.upload-page input.chip-input[type="date"] { appearance: none; -webkit-appearance: none; line-height: 20px; padding-right: 34px; }
+.upload-page input.chip-input[type="date"]::-webkit-calendar-picker-indicator { width: 18px; height: 18px; }
+.upload-page input.chip-input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+.upload-page input.chip-input[type="number"]::-webkit-outer-spin-button,
+.upload-page input.chip-input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* 요약 */
+.upload-page .summary.summary--form {
+  text-align: center; font-size: 18px;
+  margin-top: 12px; margin-bottom: 22px;
+}
+
+/* 에디터 */
+.upload-page .editor { margin-top: 18px; }
+.upload-page .editor-area {
+  width: 100%; min-height: 160px;
+  border: none; border-radius: 12px;
+  background: transparent; outline: none;
+  font-size: 18px; line-height: 1.6;
+  padding: 10px 4px; resize: vertical; text-align: left;
+}
+.upload-page .editor-area::placeholder { color: #c7c7c7; }
+.upload-page .editor-area:placeholder-shown { text-align: center; }
+
+/* PIN + 버튼 */
+.upload-page .bottom-actions {
+  display: flex; align-items: center;
+  justify-content: flex-end; gap: 14px;
+  margin-top: 28px;
+}
+.upload-page .pin-wrap { display: flex; align-items: center; gap: 8px; }
+.upload-page .pin-label { color: #555; letter-spacing: 1px; }
+.upload-page .pin-input {
+  width: 96px; height: 38px;
+  border: 1.5px solid #000;
+  border-radius: 999px; padding: 0 14px;
+  font-size: 16px; outline: none;
+}
+.upload-page .upload-btn {
+  height: 42px; padding: 0 18px;
+  background: #000; color: #fff;
+  border: none; border-radius: 999px;
+  cursor: pointer; font-weight: 700;
+}
+.upload-page .upload-btn:hover { opacity: 0.92; }
+
+/* 푸터 */
+.footer-text {
+  position: absolute;
+  top: 1800px; left: 543px;
+  text-align: center; font-size: 24px;
+  letter-spacing: 3.36px;
+  font-family: "Inter", sans-serif;
+}
+.footer-sub { font-size: 12px; line-height: 1.3; }
+
+/* 반응형 */
+@media (max-width: 1200px) {
+  .upload-page .upload-inner { max-width: 600px; }
+  .upload-page .upload-grid {
+    grid-template-columns: 1fr; gap: 32px;
+  }
+  .upload-page .upload-card {
+    width: 100%; max-width: 520px;
+    height: auto; aspect-ratio: 1 / 1;
+  }
+}

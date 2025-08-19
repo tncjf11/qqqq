@@ -1,0 +1,244 @@
+/* 스코프 */
+.detail-transfer .container {
+  position: relative;
+  width: min(92%, 1280px);
+  margin: 0 auto;
+  padding-top: 0;          /* 이미 0이면 그대로 OK */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* 헤더: 높이를 낮춰서 전체를 위로 */
+.detail-transfer .header {
+  position: relative;
+  height: 400px;           /* 기존 380px → 240px (조금 더 위로 붙음) */
+}
+
+/* 왼쪽 타이틀 블록을 살짝 위로 */
+.detail-transfer .branding {
+  position: absolute;
+  left: 56px;
+  top: -60px;   
+  left: -100px;            /* 기존 0 → -8px */
+}
+
+/* 타이틀을 조금 키우기 + 줄간격 타이트 */
+.detail-transfer .branding-text {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-size: clamp(33px, 4.6vw, 52px);
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+}
+
+/* 집 아이콘도 살짝 키우고 위로 올림 */
+.detail-transfer .house-icon {
+  position: absolute;
+  top: 10px;
+  left: 330px;
+  width: 340px;
+  height: auto;
+}
+
+/* 우측 상단 컨트롤: 버튼만 */
+.detail-transfer .controls {
+  position: absolute;
+  top: -50px;
+  right: -100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.detail-transfer .search-top-btn {
+  background: #000;
+  color: #fff;
+  padding: 6px 20px;
+  border-radius: 38px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+  border: 0;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+/* 결과 카드 영역 */
+.detail-transfer .results {
+  position: absolute;
+  top: 560px;           
+  left: 12%;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.detail-transfer .result-card { 
+  text-align: center; 
+  width: 189px; 
+}
+.detail-transfer .result-thumbnail {
+  width: 189px; 
+  aspect-ratio: 1 / 1;
+  border-radius: 41px; 
+  background-color: rgba(72, 72, 72, 0.35);
+}
+.detail-transfer .result-text {
+  margin-top: 16px; 
+  font-size: 14px; 
+  font-family: "Inter", sans-serif; 
+  color: #000;
+}
+
+/* 탭 */
+.detail-transfer .detail-tabs {
+  display: flex;
+  padding-left: 58px;
+  margin: 10px 0px 14px;
+}
+.detail-transfer .pill { 
+  border: 1.5px solid #000; 
+  border-radius: 999px; 
+  padding: 7px 35px; 
+  background: #fff; 
+  cursor: pointer; 
+}
+.detail-transfer .pill--black { 
+  background: #000; 
+  color: #fff; 
+  border: none; 
+}
+
+/* 사진 + 상세 그리드 */
+.detail-transfer .detail-grid {
+  display: grid;
+  grid-template-columns: 420px 1fr;   /* 좌:사진 420px | 우:텍스트 */
+  gap: 36px;
+  align-items: start;
+  padding: 0 56px;
+}
+
+/* 좌측 사진 카드 */
+.detail-transfer .photo-card { 
+  position: relative; 
+  width: 95%; 
+  aspect-ratio: 1/1; 
+  max-width: 420px; 
+}
+.detail-transfer .pc-body {
+  position: relative; 
+  width: 100%; 
+  height: 100%;
+  border-radius: 28px; 
+  background: #777; 
+  z-index: 3;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  overflow: hidden;            /* 모서리 라운드에 맞춰 잘라내기 */
+}
+.detail-transfer .pc-shadow { 
+  position: absolute; 
+  inset: 0; 
+  border-radius: 28px; 
+  pointer-events: none;
+}
+.detail-transfer .pc-shadow.s1 { 
+  background:#9b9b9b; 
+  transform: translate(12px,10px); 
+  z-index:1; 
+}
+.detail-transfer .pc-shadow.s2 { 
+  background:#bdbdbd; 
+  transform: translate(22px,18px); 
+  z-index:0; 
+}
+
+/* ✅ 실제 이미지 표시 */
+.detail-transfer .pc-img {
+  display: block;              /* 기존 none → block */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+/* 우측 상세 */
+.detail-transfer .detail-info{
+  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.detail-transfer .di-title{
+  margin: 2px 0 6px ;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 34px;           
+  letter-spacing: .02em;
+}
+.detail-transfer .di-hr{
+  height: 2px;
+  background: #000;
+  width: 500px;
+  margin: 6px auto 8px;
+}
+.detail-transfer .di-meta{
+  text-align: center;
+  opacity: .85;
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+
+/* 본문 */
+.detail-transfer .di-body{
+  width: min(450px, 200%);
+}
+.detail-transfer .di-desc{
+  white-space: pre-line;
+  line-height: 1.7;
+  margin: 0 0 16px;
+  color: #111;
+  font-weight: 600;
+  text-align: left;
+  font-size: 20px;
+}
+
+/* 버튼 */
+.detail-transfer .di-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: right;
+  margin-top: 140px;
+  margin-right: -50px;
+}
+.detail-transfer .chip {
+  border: 1.5px solid #000;
+  border-radius: 999px;
+  padding: 6px 25px;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 600;
+}
+.detail-transfer .chip:hover { 
+  background:#000; 
+  color:#fff; 
+}
+
+/* 푸터 텍스트 */
+.detail-transfer .footer-text {
+  position: absolute;
+  top: 1500px;
+  left: 543px;
+  text-align: center;
+  font-size: 24px;
+  letter-spacing: 3.36px;
+  font-family: "Inter", sans-serif;
+}
+.detail-transfer .footer-sub {
+  font-size: 12px;
+  line-height: 1.3;
+}
