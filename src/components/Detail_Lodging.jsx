@@ -650,3 +650,4 @@ const DetailLodging = () => {
 };
 
 export default DetailLodging;
+
