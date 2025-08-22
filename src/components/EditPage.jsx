@@ -9,6 +9,16 @@ import transferImg from "../image/image21.png";
 import editImg from "../image/image32.png";
 
 /* =========================
+   API BASE (prod: onrender, dev: /api)
+   ========================= */
+const isProd = process.env.NODE_ENV === "production";
+const API_BASE = (
+  process.env.REACT_APP_API_BASE ||
+  (isProd ? "https://likelion-hackathon-h6r9.onrender.com" : "/api")
+).replace(/\/+$/, "");
+if (typeof window !== "undefined") console.log("[API_BASE]", API_BASE);
+
+/* =========================
    유틸
    ========================= */
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -38,7 +48,7 @@ const typeToTab = (type) => (type === "STAY" ? "lodging" : "transfer");
    API
    ========================= */
 async function patchListing(id, body) {
-  const resp = await fetch(`/api/listings/${id}`, {
+  const resp = await fetch(`${API_BASE}/api/listings/${id}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -57,7 +67,7 @@ async function uploadPhotos(id, fileList) {
   if (!fileList?.length) return;
   const fd = new FormData();
   fileList.forEach((f) => fd.append("files", f)); // 서버에서 필드명을 "files"로 받는다고 가정
-  const resp = await fetch(`/api/listings/${id}/photos`, {
+  const resp = await fetch(`${API_BASE}/api/listings/${id}/photos`, {
     method: "POST",
     body: fd, // Content-Type 자동 설정됨
   });
@@ -198,7 +208,7 @@ const EditPage = () => {
     setLoading(true);
     (async () => {
       try {
-        const resp = await fetch(`/api/listings/${listingId}`);
+        const resp = await fetch(`${API_BASE}/api/listings/${listingId}`);
         if (!resp.ok) throw new Error("상세 불러오기에 실패했습니다.");
         const data = await resp.json(); // { id, type:'STAY'|'TRANSFER', ... }
         const tab = locked ? initialTab : typeToTab(data?.type);

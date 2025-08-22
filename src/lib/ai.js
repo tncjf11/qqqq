@@ -10,6 +10,10 @@ import api from "../lib/api";
  * @returns {Promise<{ improvedText: string }>}
  */
 export async function aiPolish({ type, rawText, tone }) {
-  const { data } = await api.post("/api/ai/polish", { type, rawText, tone });
+  const res = await api.post("https://likelion-hackathon-h6r9.onrender.com/api/ai/polish", { type, rawText, tone }, { timeout: 30000 });
+  const data = res?.data;
+  if (!data || typeof data.improvedText !== "string") {
+    throw new Error("AI 응답 형식이 예상과 다릅니다.");
+  }
   return data; // { improvedText }
 }

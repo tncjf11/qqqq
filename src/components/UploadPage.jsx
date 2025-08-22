@@ -24,8 +24,13 @@ export const TagGroup = () => (
   </div>
 );
 
-// ✅ 백엔드 베이스 URL
-const API_BASE = (process.env.REACT_APP_API_BASE ?? "").trim();
+// ✅ 백엔드 베이스 URL (prod 기본값: Render, dev 기본값: /api)
+const isProd = process.env.NODE_ENV === "production";
+const API_BASE = (
+  process.env.REACT_APP_API_BASE ||
+  (isProd ? "https://likelion-hackathon-h6r9.onrender.com" : "/api")
+).replace(/\/+$/, ""); // 끝의 슬래시 제거
+if (typeof window !== "undefined") console.log("[API_BASE]", API_BASE);
 
 // ---------- 유틸 ----------
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -236,7 +241,11 @@ const UploadPage = () => {
       fd.append("data", JSON.stringify(payload)); // key: "data"
       files.forEach((f) => fd.append("files", f)); // key: "files"
 
-      const resp = await fetch("/api/listings/with-upload", { method: "POST", body: fd });
+      // 🔧 상대경로 → 절대 API로 변경
+      const resp = await fetch(`${API_BASE}/api/listings/with-upload`, {
+        method: "POST",
+        body: fd,
+      });
 
       if (!resp.ok) {
         const msg = await resp.text().catch(() => "");

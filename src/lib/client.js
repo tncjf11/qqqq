@@ -1,7 +1,7 @@
 // src/api/client.js
 import axios from "axios";
 export const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE ?? "http://172.30.1.77:8081",
+  baseURL: process.env.REACT_APP_API_BASE ?? "https://likelion-hackathon-h6r9.onrender.com/",
   timeout: 30000,
 });
 api.interceptors.response.use(
@@ -18,3 +18,4 @@ api.interceptors.response.use(
     return Promise.reject(new Error(msg));
   }
 );
+
