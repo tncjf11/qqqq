@@ -1,22 +1,29 @@
+// src/components/SearchPage.jsx
 import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import house from "../image/house.png";
 import search from "../image/search.png";
 import "../styles/SearchPage.css";
 
-/* ===== 프록시 전제 유틸 =====
-   - CRA dev에서 package.json의 "proxy"가 있으므로
-     fetch는 반드시 상대경로("/api/...")로 보냅니다.
-   - 썸네일도 절대URL이면 그대로, 아니면 상대경로로 보정합니다. */
-function toRelative(u) {
+/* ===== API BASE ===== */
+// prod 기본값(onrender), dev 기본값(/api → dev-proxy)
+const isProd = process.env.NODE_ENV === "production";
+const API_BASE = (
+  process.env.REACT_APP_API_BASE ||
+  (isProd ? "https://likelion-hackathon-h6r9.onrender.com" : "/api")
+).replace(/\/+$/, "");
+if (typeof window !== "undefined") console.log("[API_BASE]", API_BASE);
+
+/* ===== 이미지 URL 보정 ===== */
+function absolutize(u) {
   if (!u) return "";
   if (/^https?:\/\//i.test(u)) return u; // 절대 URL은 그대로
-  return u.startsWith("/") ? u : `/${u}`;
+  // 상대 경로면 API_BASE 붙이기 (dev에선 /api/.. → proxy, prod에선 onrender/..)
+  return `${API_BASE}${u.startsWith("/") ? "" : "/"}${u}`;
 }
-
 function buildImgUrl(u) {
-  const rel = toRelative(u);
-  return rel || house; // 값 없으면 기본 이미지
+  const abs = absolutize(u);
+  return abs || house; // 값 없으면 기본 이미지
 }
 
 const mmdd = (iso) => (iso ? iso.slice(5).replace("-", ".") : "");
@@ -49,7 +56,7 @@ export default function SearchPage() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
 
-  // 디바운스 후 서버 호출 (상대경로! 프록시가 172.30.1.77:8081로 전달)
+  // 디바운스 후 서버 호출 (prod: onrender, dev: /api → proxy)
   useEffect(() => {
     const q = (query ?? "").trim();
     setErr("");
@@ -60,7 +67,9 @@ export default function SearchPage() {
     setLoading(true);
     const t = setTimeout(async () => {
       try {
-        const resp = await fetch(`/api/listings/search?name=${encodeURIComponent(q)}`);
+        const resp = await fetch(
+          `${API_BASE}/api/listings/search?name=${encodeURIComponent(q)}`
+        );
         if (!resp.ok) {
           const msg = await resp.text().catch(() => "");
           throw new Error(`검색 실패 (${resp.status}) ${msg}`);

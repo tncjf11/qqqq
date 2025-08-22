@@ -8,8 +8,15 @@ import transferImg from "../image/image21.png";
 import chatbotImg from "../image/image32.png";
 import roomImg from "../image/room-sample.png";
 
-// 백엔드 베이스 URL
-const API_BASE = "";
+/* =========================
+   API BASE (prod: onrender, dev: 상대경로)
+   ========================= */
+const isProd = process.env.NODE_ENV === "production";
+const API_BASE = (
+  process.env.REACT_APP_API_BASE ||
+  (isProd ? "https://likelion-hackathon-h6r9.onrender.com" : "")
+).replace(/\/+$/, "");
+if (typeof window !== "undefined") console.log("[API_BASE]", API_BASE);
 
 // 썸네일 URL 조합 (상대경로면 API_BASE 붙이고, 없으면 기본 이미지)
 function buildImgUrl(u) {
@@ -58,7 +65,8 @@ const TransferPage = () => {
   const [err, setErr] = useState("");
 
   async function fetchTransfers() {
-    const resp = await fetch(`${API_BASE}/api/listings/transfer`);
+    const path = `/api/listings/transfer`;
+    const resp = await fetch(`${API_BASE}${path}`);
     if (!resp.ok) {
       const msg = await resp.text().catch(() => "");
       throw new Error(`양도 목록 조회 실패 (${resp.status}) ${msg}`);

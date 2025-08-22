@@ -5,7 +5,14 @@ import house from "../image/house.png";
 import "../styles/Detail_Transfer.css";
 
 /* ===== 공통 유틸 ===== */
-const API_BASE = ""; // CRA dev-proxy 사용 시 빈 문자열
+// prod 기본값: Render, dev 기본값: /api
+const isProd = process.env.NODE_ENV === "production";
+const API_BASE = (
+  process.env.REACT_APP_API_BASE ||
+  (isProd ? "https://likelion-hackathon-h6r9.onrender.com" : "/api")
+).replace(/\/+$/, ""); // 끝 슬래시 제거
+if (typeof window !== "undefined") console.log("[API_BASE]", API_BASE);
+
 const mmdd = (iso) => (iso ? iso.slice(5).replace("-", ".") : "");
 function buildImgUrl(u, fallback) {
   if (!u) return fallback;
@@ -159,7 +166,7 @@ const DetailTransfer = () => {
     setLoading(true);
     setErr("");
 
-    fetch(`/api/listings/transfer/${id}`)
+    fetch(`${API_BASE}/api/listings/transfer/${id}`)
       .then(async (resp) => {
         if (!resp.ok)
           throw new Error(`상세 조회 실패 (${resp.status}) ${await resp.text().catch(() => "")}`);
@@ -205,9 +212,10 @@ const DetailTransfer = () => {
     const pin = window.prompt("삭제 PIN을 입력하세요");
     if (!pin) return;
     try {
-      const resp = await fetch(`/api/listings/${id}?pin=${encodeURIComponent(pin)}`, {
-        method: "DELETE",
-      });
+      const resp = await fetch(
+        `${API_BASE}/api/listings/${id}?pin=${encodeURIComponent(pin)}`,
+        { method: "DELETE" }
+      );
       if (!resp.ok) {
         const msg = await resp.text().catch(() => "");
         throw new Error(`삭제 실패 (${resp.status}) ${msg}`);

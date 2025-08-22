@@ -5,7 +5,14 @@ import house from "../image/house.png";
 import "../styles/Detail_Lodging.css";
 
 /* ===== 공통 유틸 ===== */
-const API_BASE = ""; // CRA dev-proxy 사용 시 빈 문자열
+// prod 기본값: Render, dev 기본값: /api
+const isProd = process.env.NODE_ENV === "production";
+const API_BASE = (
+  process.env.REACT_APP_API_BASE ||
+  (isProd ? "https://likelion-hackathon-h6r9.onrender.com" : "/api")
+).replace(/\/+$/, "");
+if (typeof window !== "undefined") console.log("[API_BASE]", API_BASE);
+
 const mmdd = (iso) => (iso ? iso.slice(5).replace("-", ".") : "");
 function buildImgUrl(u, fallback) {
   if (!u) return fallback;
@@ -36,12 +43,9 @@ function useNaverScript(clientId) {
 }
 
 /** ── 주소 전처리 유틸 ── */
-// " 주소: " 라벨/여분 공백 제거
 const cleanLabel = (s = "") =>
   s.replace(/^주소\s*:\s*/i, "").replace(/\s+/g, " ").trim();
-// "금곡로 7번길 1" → "금곡로7번길 1" (네이버가 이 표기를 더 잘 인식)
 const normalizeRoad = (s = "") => s.replace(/로\s+(\d+)\s*번길/gi, "로$1번길");
-// "자하문로 50" → "자하문로50" (일부 케이스 보완)
 const normalizeSpaceNum = (s = "") => s.replace(/([가-힣\d])\s+(\d+)/g, "$1$2");
 
 /** 지도: lat/lng 또는 address로 표시(주소는 후보들을 순차 시도) */
@@ -66,20 +70,11 @@ function NaverMap({ lat, lng, address, zoom = 16, style }) {
     }
 
     if (address && naver.maps.Service?.geocode) {
-      // 주소 후보들을 원본 → 정리 → 붙여쓰기 변형 → 대한민국 접두 순으로 시도
       const a0 = String(address ?? "");
       const a1 = cleanLabel(a0);
       const a2 = normalizeRoad(a1);
       const a3 = normalizeSpaceNum(a2);
-      const trials = [
-        a0,            // 원본 그대로 우선
-        a1,            // 라벨/여분 공백 정리
-        a2,            // "로 7번길" → "로7번길"
-        a3,            // "자하문로 50" → "자하문로50" 등 보완
-        `대한민국 ${a1}`,
-        `대한민국 ${a2}`,
-        `대한민국 ${a3}`,
-      ];
+      const trials = [a0, a1, a2, a3, `대한민국 ${a1}`, `대한민국 ${a2}`, `대한민국 ${a3}`];
 
       const tryNext = (i = 0) => {
         if (i >= trials.length) {
@@ -159,7 +154,8 @@ const DetailLodging = () => {
     setLoading(true);
     setErr("");
 
-    fetch(`/api/listings/stay/${id}`)
+    // 🔧 상대경로 → 절대 API
+    fetch(`${API_BASE}/api/listings/stay/${id}`)
       .then(async (resp) => {
         if (!resp.ok)
           throw new Error(`상세 조회 실패 (${resp.status}) ${await resp.text().catch(() => "")}`);
@@ -205,7 +201,8 @@ const DetailLodging = () => {
     const pin = window.prompt("삭제 PIN을 입력하세요");
     if (!pin) return;
     try {
-      const resp = await fetch(`/api/listings/${id}?pin=${encodeURIComponent(pin)}`, {
+      // 🔧 상대경로 → 절대 API
+      const resp = await fetch(`${API_BASE}/api/listings/${id}?pin=${encodeURIComponent(pin)}`, {
         method: "DELETE",
       });
       if (!resp.ok) {
@@ -223,11 +220,9 @@ const DetailLodging = () => {
   const photos = (data?.photos ?? []).slice(0, 5);
   const total = photos.length;
 
-  // 카드 내에서 보여줄 현재 인덱스 (썸네일/카드에서 화살표 안 쓰면 필요 X)
   const [idx, setIdx] = useState(0);
   useEffect(() => setIdx(0), [total]);
 
-  // 라이트박스(모달) 상태
   const [viewerOpen, setViewerOpen] = useState(false);
   const [viewerIdx, setViewerIdx] = useState(0);
 
@@ -239,7 +234,6 @@ const DetailLodging = () => {
   const prevViewer = () => setViewerIdx((i) => (i - 1 + total) % total);
   const nextViewer = () => setViewerIdx((i) => (i + 1) % total);
 
-  // ESC/Arrow 키 지원 + 모달 열릴 때 스크롤 잠금
   useEffect(() => {
     if (!viewerOpen) return;
     const onKey = (e) => {
@@ -254,10 +248,8 @@ const DetailLodging = () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prevOverflow;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [viewerOpen, total]);
 
-  // 카드 내 네비게이션(필요하다면 유지, 아니면 주석 처리 가능)
   const prevCard = () => setIdx((i) => (i - 1 + total) % total);
   const nextCard = () => setIdx((i) => (i + 1) % total);
 
@@ -441,9 +433,7 @@ const DetailLodging = () => {
                     data?.startDate || data?.endDate ? "~" : ""
                   }${data?.endDate ? mmdd(data.endDate) : ""} / ${
                     data?.guests != null ? `${data.guests}명` : ""
-                  } / ${
-                    data?.price != null ? data.price.toLocaleString() + "원" : ""
-                  }`}
+                  } / ${data?.price != null ? data.price.toLocaleString() + "원" : ""}`}
                 </div>
                 <div className="di-body">
                   <p className="di-desc">
@@ -513,7 +503,7 @@ const DetailLodging = () => {
           aria-modal="true"
           role="dialog"
           aria-label="사진 보기"
-          onClick={closeViewer} // 바깥 클릭 닫기
+          onClick={closeViewer}
           style={{
             position: "fixed",
             inset: 0,
@@ -524,7 +514,6 @@ const DetailLodging = () => {
             padding: 16,
           }}
         >
-          {/* 컨텐츠 박스 (이 안을 클릭해도 닫히지 않게) */}
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
@@ -540,7 +529,6 @@ const DetailLodging = () => {
               justifyContent: "center",
             }}
           >
-            {/* 이미지 */}
             <img
               src={buildImgUrl(photos[viewerIdx], house)}
               alt={`숙박 이미지 확대 ${viewerIdx + 1} / ${total}`}
@@ -552,7 +540,6 @@ const DetailLodging = () => {
               }}
             />
 
-            {/* 좌/우 네비 */}
             {total > 1 && (
               <>
                 <button
@@ -602,7 +589,6 @@ const DetailLodging = () => {
               </>
             )}
 
-            {/* 카운트 */}
             <div
               style={{
                 position: "absolute",
@@ -620,7 +606,6 @@ const DetailLodging = () => {
               {viewerIdx + 1} / {total}
             </div>
 
-            {/* 닫기 버튼 */}
             <button
               type="button"
               aria-label="닫기"
